@@ -1,34 +1,41 @@
-import { paresDeCartas } from "../constants/cartas";
+import { useEffect } from "react";
 import { LogicaJogoDaMemoriaProvider } from "../contexts/LogicaJogoDaMemoria";
-import Cartas from "./Cartas";
-import Placar from "./Placar";
-import Resultado from "./Resultados";
+import { useJogoDaMemoria } from "../hooks/useJogoDaMemoria";
+import { Carta } from "./Carta";
+import { Placar } from "./Placar";
+import { Resultado } from "./Resultado";
 
-const JogoDaMemoria = () => {
-    return ( 
-        <LogicaJogoDaMemoriaProvider>
-            <JogoDaMemoriaCounteudo/>
-        </LogicaJogoDaMemoriaProvider>
-     );
-}
- 
-export default JogoDaMemoria;
+export const JogoDaMemoria = () => {
+  return (
+    <LogicaJogoDaMemoriaProvider>
+      <JogoDaMemoriaConteudo />
+    </LogicaJogoDaMemoriaProvider>
+  );
+};
 
-export const JogoDaMemoriaCounteudo = () => {
-    return (
-        <>
-        <div className="jogo-da-memoria">
-            <div className="jogo-da-memoria__conteudo">
-            <h1>Jogo da Memoria</h1>
-                <Placar/>
-                <div className="jogo-da-memoria__cartas">
-                    {paresDeCartas.map((carta) => (
-                    <Cartas key={carta.id} {...carta}/>
-                    ))}
-                </div>
-            </div>
-            <Resultado/>
-        </div>
-        </>
-    )
-}
+const JogoDaMemoriaConteudo = () => {
+  const { cartas, iniciarJogo } = useJogoDaMemoria();
+
+  useEffect(() => {
+    iniciarJogo();
+  }, []);
+
+  return (
+    <div className="jogo-da-memoria">
+      <div className="jogo-da-memoria__conteudo">
+        <h1>Jogo da Memória</h1>
+        <Placar />
+        {cartas?.length === 0 ? (
+          <p>Carregando cartas...</p>
+        ) : (
+          <div className="cartas">
+            {cartas.map((props) => (
+              <Carta key={props.id} {...props} />
+            ))}
+          </div>
+        )}
+      </div>
+      <Resultado />
+    </div>
+  );
+};
