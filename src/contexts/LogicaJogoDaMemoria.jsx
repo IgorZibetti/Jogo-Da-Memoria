@@ -5,36 +5,36 @@ import { buscarCartas } from "../services/buscarCartas";
 export const LogicaJogoDaMemoriaContext = createContext();
 
 export const LogicaJogoDaMemoriaProvider = ({ children }) => {
-  const [cartas, definirCartas] = useState([]);
-  const [idsDosParesEncontrados, definirIdsDosParesEncontrados] = useState([]);
-  const [idsDasCartasViradas, definirIdsDasCartasViradas] = useState([]);
+  const [cartas, setCartas] = useState([]);
+  const [idsDosParesEncontrados, setIdsDosParesEncontrados] = useState([]);
+  const [idsDasCartasViradas, setIdsDasCartasViradas] = useState([]);
 
-  const [quantidadeDeCartasViradas, definirQuantidadeDeCartasViradas] =
+  const [quantidadeDeCartasViradas, setQuantidadeDeCartasViradas] =
     useState(0);
-  const [quantidadeDePontos, definirQuantidadeDePontos] = useState(0);
+  const [quantidadeDePontos, setQuantidadeDePontos] = useState(0);
 
   const iniciarJogo = async () => {
-    definirIdsDosParesEncontrados([]);
-    definirIdsDasCartasViradas([]);
+    setIdsDosParesEncontrados([]);
+    setIdsDasCartasViradas([]);
 
-    definirQuantidadeDeCartasViradas(0);
+    setQuantidadeDeCartasViradas(0);
 
     const cartas = await buscarCartas();
-    definirCartas(cartas);
+    setCartas(cartas);
   };
 
   const novaRodada = () => {
-    definirIdsDasCartasViradas([]);
+    setIdsDasCartasViradas([]);
   };
 
   const contarCartaVirada = () =>
-    definirQuantidadeDeCartasViradas((quantidade) => quantidade + 1);
+    setQuantidadeDeCartasViradas((quantidade) => quantidade + 1);
 
   const marcarPonto = () =>
-    definirQuantidadeDePontos((pontos) => pontos + PONTOS.PAR_ENCONTRADO);
+    setQuantidadeDePontos((pontos) => pontos + PONTOS.PAR_ENCONTRADO);
 
   const registrarParEncontrado = (idDoPar) =>
-    definirIdsDosParesEncontrados((ids) => [...ids, idDoPar]);
+    setIdsDosParesEncontrados((ids) => [...ids, idDoPar]);
 
   const compararCartasPorIds = ([primeiroId, segundoId]) => {
     const idPar1 = cartas.find(({ id }) => id === primeiroId)?.idDoPar;
@@ -46,13 +46,13 @@ export const LogicaJogoDaMemoriaProvider = ({ children }) => {
     contarCartaVirada();
 
     if (idsDasCartasViradas.length === 0) {
-      return definirIdsDasCartasViradas([id]);
+      return setIdsDasCartasViradas([id]);
     }
 
     const primeiroId = idsDasCartasViradas[0];
     const segundoId = id;
     const ids = [primeiroId, segundoId];
-    definirIdsDasCartasViradas(ids);
+    setIdsDasCartasViradas(ids);
 
     const cartasIguais = compararCartasPorIds(ids);
     if (cartasIguais) {
