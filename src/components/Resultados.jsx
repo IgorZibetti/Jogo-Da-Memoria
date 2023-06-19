@@ -1,11 +1,14 @@
+import classNames from "classnames";
+
 const Resultado = () => {
+ const cn = classNames('resultado', 
+ {'resultado--aberto' : false})
     return (  
-        <div className="resultado">
-            <div className="resultado__box">
+        <div className={cn}>
+            <div className="resultado__caixa">
                 <p>Seu nivel de memoria é </p>
                 <h1>Bom</h1>
                 <img src="/bom.jpg" alt="Image referente ao nivel de moria" height={150} />
-            </div>
             <p>
                 <strong>Taxa de acertos:</strong>
                 <span>60%</span>
@@ -18,6 +21,7 @@ const Resultado = () => {
                     * Essa analise e inlustrativa e nao possui base cientifica
                 </small>
             </p>
+            </div>
         </div>
        );
 }
