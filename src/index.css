@@ -98,6 +98,7 @@ a:hover {
 
 .carta img {
   max-width: 100%;
+  height: 100%;
 }
 
 .carta--virada .carta__conteudo {
